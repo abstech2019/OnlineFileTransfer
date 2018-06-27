@@ -76,6 +76,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="bin\Debug\OnlieFileTransfer.exe.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -92,8 +93,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Debug\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="bin\Debug\Ionic.Zip.dll" />
+    <Content Include="bin\Debug\Microsoft.ExceptionMessageBox.dll" />
+    <Content Include="bin\Debug\OnlieFileTransfer.exe" />
+    <Content Include="bin\Debug\OnlieFileTransfer.pdb" />
     <Content Include="Images\file.png" />
     <Content Include="Images\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Release\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
