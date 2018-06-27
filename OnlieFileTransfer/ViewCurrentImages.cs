@@ -179,19 +179,20 @@ namespace OnlieFileTransfer
         }
         private void SetHeaderAndWidth()
         {
-            dgvFilesList.Columns[0].HeaderText = "File Name";
-            dgvFilesList.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dgvFilesList.Columns[1].HeaderText = "File Path";
-            dgvFilesList.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvFilesList.EnableHeadersVisualStyles = false;
+            dgvFilesList.ColumnHeadersDefaultCellStyle.BackColor = Color.Aquamarine;
         }
 
         private void ViewCurrentImages_Load(object sender, EventArgs e)
         {
+            ViewCurrentImages loViewCurrentImages = new ViewCurrentImages();
+            loViewCurrentImages.Text = "ABSTECH V1.0";
             InitializeInternals();
             BindFileGridview();       
             StartErrorFileWatcher();
             StartFileWatcher();
             AddLinkButtonToDGV();
+            SetHeaderAndWidth();
         }
 
         private void StartErrorFileWatcher()
@@ -256,7 +257,7 @@ namespace OnlieFileTransfer
         {
 
             Bitmap bmp;
-            string lsFilePath = Application.StartupPath + @"\..\..\Images\file.png";
+            string lsFilePath = Application.StartupPath + @"\..\..\Images\file.ico";
             string lsFolderPath = Application.StartupPath + @"\..\..\Images\folder.png";
             for (int x = 0; x <= dgvFilesList.Rows.Count - 1; x++)
             {
@@ -458,6 +459,18 @@ namespace OnlieFileTransfer
             {
                 return false;
             }
+        }
+
+        private void dgvFilesList_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            int liIndex = e.RowIndex;
+            dgvFilesList.Rows[liIndex].Selected = true;
+        }
+
+        private void versionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Version 1.0");
         }
     }
 

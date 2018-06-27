@@ -76,6 +76,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="bin\Debug\OnlieFileTransfer.exe.config" />
+    <None Include="bin\Debug\OnlieFileTransfer.vshost.exe.config" />
+    <None Include="bin\Debug\OnlieFileTransfer.vshost.exe.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -92,6 +95,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Debug\OnlieFileTransfer.vshost.exe" />
+    <Content Include="Images\file.ico" />
     <Content Include="Images\file.png" />
     <Content Include="Images\folder.png" />
   </ItemGroup>
