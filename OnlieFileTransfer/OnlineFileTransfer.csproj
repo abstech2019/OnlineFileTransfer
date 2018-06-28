@@ -100,5 +100,8 @@
     <Content Include="Images\file.png" />
     <Content Include="Images\folder.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Release\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
