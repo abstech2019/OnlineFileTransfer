@@ -77,12 +77,12 @@ namespace OnlieFileTransfer
                             byte[] SendByte = new byte[31457280];
                             //We have to prepare the file acording into the protocol
                             int liPos = 0;
-
-                            UInt32 lsFileNameSize = (UInt32)data.Length;
+                            string fnameonly = data.Split('\\').Last();
+                            UInt32 lsFileNameSize = (UInt32)fnameonly.Length;
 
                             BitConverter.GetBytes(lsFileNameSize).CopyTo(SendByte, liPos);
                             liPos += sizeof(uint);
-                            byte[] Temp = asen.GetBytes(data);
+                            byte[] Temp = asen.GetBytes(fnameonly);
                             Temp.CopyTo(SendByte, liPos);
                             liPos += (int)lsFileNameSize;
 
