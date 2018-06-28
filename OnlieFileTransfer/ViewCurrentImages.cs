@@ -472,6 +472,11 @@ namespace OnlieFileTransfer
         {
             MessageBox.Show("Version 1.0");
         }
+
+        private void tmrTime_Tick(object sender, EventArgs e)
+        {
+            lblTime.Text = DateTime.Now.ToString("hh:mm:ss tt");
+        }
     }
 
     public class Compressor

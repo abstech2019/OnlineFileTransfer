@@ -30,6 +30,11 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dgvFilesList = new System.Windows.Forms.DataGridView();
+            this.PathType = new System.Windows.Forms.DataGridViewImageColumn();
+            this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FilePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FileStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FileAction = new System.Windows.Forms.DataGridViewLinkColumn();
             this.lstNotification = new System.Windows.Forms.ListBox();
             this.tmrEditNotify = new System.Windows.Forms.Timer(this.components);
             this.mStripTopMenu = new System.Windows.Forms.MenuStrip();
@@ -38,11 +43,8 @@
             this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblWelcomeText = new System.Windows.Forms.Label();
-            this.PathType = new System.Windows.Forms.DataGridViewImageColumn();
-            this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FilePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FileStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FileAction = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.lblTime = new System.Windows.Forms.Label();
+            this.tmrTime = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvFilesList)).BeginInit();
             this.mStripTopMenu.SuspendLayout();
             this.SuspendLayout();
@@ -71,68 +73,6 @@
             this.dgvFilesList.TabIndex = 3;
             this.dgvFilesList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFilesList_CellClick);
             this.dgvFilesList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFilesList_CellContentClick);
-            // 
-            // lstNotification
-            // 
-            this.lstNotification.FormattingEnabled = true;
-            this.lstNotification.Location = new System.Drawing.Point(3, 531);
-            this.lstNotification.Name = "lstNotification";
-            this.lstNotification.Size = new System.Drawing.Size(326, 82);
-            this.lstNotification.TabIndex = 4;
-            this.lstNotification.Visible = false;
-            // 
-            // tmrEditNotify
-            // 
-            this.tmrEditNotify.Enabled = true;
-            // 
-            // mStripTopMenu
-            // 
-            this.mStripTopMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.settingToolStripMenuItem});
-            this.mStripTopMenu.Location = new System.Drawing.Point(0, 0);
-            this.mStripTopMenu.Name = "mStripTopMenu";
-            this.mStripTopMenu.Size = new System.Drawing.Size(1015, 24);
-            this.mStripTopMenu.TabIndex = 2;
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.versionToolStripMenuItem});
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(50, 20);
-            this.toolStripMenuItem1.Text = "Menu";
-            // 
-            // versionToolStripMenuItem
-            // 
-            this.versionToolStripMenuItem.Name = "versionToolStripMenuItem";
-            this.versionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.versionToolStripMenuItem.Text = "Version";
-            this.versionToolStripMenuItem.Click += new System.EventHandler(this.versionToolStripMenuItem_Click);
-            // 
-            // settingToolStripMenuItem
-            // 
-            this.settingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sizeToolStripMenuItem});
-            this.settingToolStripMenuItem.Name = "settingToolStripMenuItem";
-            this.settingToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
-            this.settingToolStripMenuItem.Text = "Setting";
-            // 
-            // sizeToolStripMenuItem
-            // 
-            this.sizeToolStripMenuItem.Name = "sizeToolStripMenuItem";
-            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
-            this.sizeToolStripMenuItem.Text = "Size";
-            // 
-            // lblWelcomeText
-            // 
-            this.lblWelcomeText.AutoSize = true;
-            this.lblWelcomeText.Location = new System.Drawing.Point(897, 5);
-            this.lblWelcomeText.Name = "lblWelcomeText";
-            this.lblWelcomeText.Size = new System.Drawing.Size(93, 13);
-            this.lblWelcomeText.TabIndex = 6;
-            this.lblWelcomeText.Text = "Welcome AbTech";
-            this.lblWelcomeText.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // PathType
             // 
@@ -174,15 +114,95 @@
             this.FileAction.UseColumnTextForLinkValue = true;
             this.FileAction.Width = 43;
             // 
+            // lstNotification
+            // 
+            this.lstNotification.FormattingEnabled = true;
+            this.lstNotification.Location = new System.Drawing.Point(3, 531);
+            this.lstNotification.Name = "lstNotification";
+            this.lstNotification.Size = new System.Drawing.Size(326, 82);
+            this.lstNotification.TabIndex = 4;
+            this.lstNotification.Visible = false;
+            // 
+            // tmrEditNotify
+            // 
+            this.tmrEditNotify.Enabled = true;
+            this.tmrEditNotify.Tick += new System.EventHandler(this.tmrEditNotify_Tick);
+            // 
+            // mStripTopMenu
+            // 
+            this.mStripTopMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.settingToolStripMenuItem});
+            this.mStripTopMenu.Location = new System.Drawing.Point(0, 0);
+            this.mStripTopMenu.Name = "mStripTopMenu";
+            this.mStripTopMenu.Size = new System.Drawing.Size(1015, 24);
+            this.mStripTopMenu.TabIndex = 2;
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.versionToolStripMenuItem});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(50, 20);
+            this.toolStripMenuItem1.Text = "Menu";
+            // 
+            // versionToolStripMenuItem
+            // 
+            this.versionToolStripMenuItem.Name = "versionToolStripMenuItem";
+            this.versionToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.versionToolStripMenuItem.Text = "Version";
+            this.versionToolStripMenuItem.Click += new System.EventHandler(this.versionToolStripMenuItem_Click);
+            // 
+            // settingToolStripMenuItem
+            // 
+            this.settingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sizeToolStripMenuItem});
+            this.settingToolStripMenuItem.Name = "settingToolStripMenuItem";
+            this.settingToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.settingToolStripMenuItem.Text = "Setting";
+            // 
+            // sizeToolStripMenuItem
+            // 
+            this.sizeToolStripMenuItem.Name = "sizeToolStripMenuItem";
+            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
+            this.sizeToolStripMenuItem.Text = "Size";
+            // 
+            // lblWelcomeText
+            // 
+            this.lblWelcomeText.AutoSize = true;
+            this.lblWelcomeText.Location = new System.Drawing.Point(897, 5);
+            this.lblWelcomeText.Name = "lblWelcomeText";
+            this.lblWelcomeText.Size = new System.Drawing.Size(93, 13);
+            this.lblWelcomeText.TabIndex = 6;
+            this.lblWelcomeText.Text = "Welcome AbTech";
+            this.lblWelcomeText.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lblTime
+            // 
+            this.lblTime.AutoSize = true;
+            this.lblTime.Location = new System.Drawing.Point(479, 5);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.Size = new System.Drawing.Size(30, 13);
+            this.lblTime.TabIndex = 7;
+            this.lblTime.Text = "Time";
+            // 
+            // tmrTime
+            // 
+            this.tmrTime.Enabled = true;
+            this.tmrTime.Interval = 1;
+            this.tmrTime.Tick += new System.EventHandler(this.tmrTime_Tick);
+            // 
             // ViewCurrentImages
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1015, 650);
+            this.Controls.Add(this.lblTime);
             this.Controls.Add(this.lblWelcomeText);
             this.Controls.Add(this.mStripTopMenu);
             this.Controls.Add(this.dgvFilesList);
             this.Controls.Add(this.lstNotification);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.mStripTopMenu;
             this.MaximizeBox = false;
             this.Name = "ViewCurrentImages";
@@ -212,6 +232,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FilePath;
         private System.Windows.Forms.DataGridViewTextBoxColumn FileStatus;
         private System.Windows.Forms.DataGridViewLinkColumn FileAction;
+        private System.Windows.Forms.Label lblTime;
+        private System.Windows.Forms.Timer tmrTime;
     }
 }
 
