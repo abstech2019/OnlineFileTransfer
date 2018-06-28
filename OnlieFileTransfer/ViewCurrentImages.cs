@@ -25,7 +25,7 @@ namespace OnlieFileTransfer
 
         private StringBuilder moStringBuilder;
         private bool m_bDirty;
-        private System.IO.FileSystemWatcher m_Watcher;
+        private System.IO.FileSystemWatcher moWatcher;
         private bool m_bIsWatching;
 
         #region Internals
@@ -188,42 +188,22 @@ namespace OnlieFileTransfer
             ViewCurrentImages loViewCurrentImages = new ViewCurrentImages();
             loViewCurrentImages.Text = "ABSTECH V1.0";
             InitializeInternals();
-            BindFileGridview();       
+            BindFileGridview();
+            StartAwaitingFileWatcher();
             StartErrorFileWatcher();
-            StartFileWatcher();
+            StartCompleteFileWatcher();
             AddLinkButtonToDGV();
             SetHeaderAndWidth();
-        }
-
-        private void StartErrorFileWatcher()
-        {
-            if (Directory.Exists(Path.Combine(ConfigurationManager.AppSettings["ErrorDirectoryFullPath"].ToString(), DateTime.Now.ToString("ddMMyyyy"))))
-            {
-                m_Watcher = new System.IO.FileSystemWatcher();
-                m_Watcher.Filter = "*.*";
-                m_Watcher.Path = Path.Combine(ConfigurationManager.AppSettings["ErrorDirectoryFullPath"].ToString(), DateTime.Now.ToString("ddMMyyyy"));
-                m_Watcher.IncludeSubdirectories = true;
-
-                m_Watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
-                                     | NotifyFilters.FileName | NotifyFilters.DirectoryName;
-                m_Watcher.Changed += new FileSystemEventHandler(OnChanged);
-                m_Watcher.Created += new FileSystemEventHandler(OnChanged);
-                m_Watcher.Deleted += new FileSystemEventHandler(OnChanged);
-                m_Watcher.Renamed += new RenamedEventHandler(OnRenamed);
-                m_Watcher.EnableRaisingEvents = true;
-            }
         }
         private void BindFileGridview()
         {
             dgvFilesList.DataSource = null;
             dgvFilesList.Rows.Clear();
             BindAwaitingFile();
-            StartErrorFileWatcher();
+            BindErrorFile();
             BindCompleteFile();
             BindImage();
         }
-
-
         private void BindCompleteFile()
         {
             if (Directory.Exists(Path.Combine(ConfigurationManager.AppSettings["CompleteDirectoryFullPath"].ToString(), DateTime.Now.ToString("ddMMyyyy"))))
@@ -253,12 +233,28 @@ namespace OnlieFileTransfer
                 dgvFilesList.Rows.Add("Folder", System.IO.Path.GetFileName(lsFolderPath), lsFolderPath, "Awaiting");
             }
         }
+        private void BindErrorFile()
+        {
+            if (Directory.Exists(Path.Combine(ConfigurationManager.AppSettings["ErrorDirectoryFullPath"].ToString(), DateTime.Now.ToString("ddMMyyyy"))))
+            {
+                string[] loErrorFilePaths = Directory.GetFiles(Path.Combine(ConfigurationManager.AppSettings["ErrorDirectoryFullPath"].ToString(), DateTime.Now.ToString("ddMMyyyy")));
+                string[] loErrorFolderPaths = Directory.GetDirectories(Path.Combine(ConfigurationManager.AppSettings["ErrorDirectoryFullPath"].ToString(), DateTime.Now.ToString("ddMMyyyy")));
+                foreach (string lsFilePath in loErrorFilePaths)
+                {
+                    dgvFilesList.Rows.Add("File", System.IO.Path.GetFileName(lsFilePath), lsFilePath, "Error");
+                }
+                foreach (string lsFolderPath in loErrorFolderPaths)
+                {
+                    dgvFilesList.Rows.Add("Folder", System.IO.Path.GetFileName(lsFolderPath), lsFolderPath, "Error");
+                }
+            }
+        }
         private void BindImage()
         {
 
             Bitmap bmp;
             string lsFilePath = Application.StartupPath + @"\..\..\Images\file.ico";
-            string lsFolderPath = Application.StartupPath + @"\..\..\Images\folder.png";
+            string lsFolderPath = Application.StartupPath + @"\..\..\Images\Download-Folder-icon.ico";
             for (int x = 0; x <= dgvFilesList.Rows.Count - 1; x++)
             {
                 DataGridViewImageCell cell = (DataGridViewImageCell)dgvFilesList.Rows[x].Cells["PathType"];
@@ -273,23 +269,57 @@ namespace OnlieFileTransfer
                 cell.Value = bmp;
             }
         }
-        private void StartFileWatcher()
+
+        private void StartAwaitingFileWatcher()
         {
+            moWatcher = new System.IO.FileSystemWatcher();
+            moWatcher.Filter = "*.*";
+            moWatcher.Path = ConfigurationManager.AppSettings["AwaitingDirectoryFullPath"].ToString();
+            moWatcher.IncludeSubdirectories = true;
 
-            m_bIsWatching = true;
-            m_Watcher = new System.IO.FileSystemWatcher();
-            m_Watcher.Filter = "*.*";
-            m_Watcher.Path = ConfigurationManager.AppSettings["AwaitingDirectoryFullPath"].ToString();
-            m_Watcher.IncludeSubdirectories = true;
-
-            m_Watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
+            moWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
                                  | NotifyFilters.FileName | NotifyFilters.DirectoryName;
-            m_Watcher.Changed += new FileSystemEventHandler(OnChanged);
-            m_Watcher.Created += new FileSystemEventHandler(OnChanged);
-            m_Watcher.Deleted += new FileSystemEventHandler(OnChanged);
-            m_Watcher.Renamed += new RenamedEventHandler(OnRenamed);
-            m_Watcher.EnableRaisingEvents = true;
-            Console.WriteLine("File Watcher Thread started : " + Thread.CurrentThread.ManagedThreadId);
+            moWatcher.Changed += new FileSystemEventHandler(OnChanged);
+            moWatcher.Created += new FileSystemEventHandler(OnChanged);
+            moWatcher.Deleted += new FileSystemEventHandler(OnChanged);
+            moWatcher.Renamed += new RenamedEventHandler(OnRenamed);
+            moWatcher.EnableRaisingEvents = true;
+        }
+        private void StartErrorFileWatcher()
+        {
+            if (Directory.Exists(Path.Combine(ConfigurationManager.AppSettings["ErrorDirectoryFullPath"].ToString(), DateTime.Now.ToString("ddMMyyyy"))))
+            {
+                moWatcher = new System.IO.FileSystemWatcher();
+                moWatcher.Filter = "*.*";
+                moWatcher.Path = Path.Combine(ConfigurationManager.AppSettings["ErrorDirectoryFullPath"].ToString(), DateTime.Now.ToString("ddMMyyyy"));
+                moWatcher.IncludeSubdirectories = true;
+
+                moWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
+                                     | NotifyFilters.FileName | NotifyFilters.DirectoryName;
+                moWatcher.Changed += new FileSystemEventHandler(OnChanged);
+                moWatcher.Created += new FileSystemEventHandler(OnChanged);
+                moWatcher.Deleted += new FileSystemEventHandler(OnChanged);
+                moWatcher.Renamed += new RenamedEventHandler(OnRenamed);
+                moWatcher.EnableRaisingEvents = true;
+            }
+        }
+        private void StartCompleteFileWatcher()
+        {
+            if (Directory.Exists(Path.Combine(ConfigurationManager.AppSettings["CompleteDirectoryFullPath"].ToString(), DateTime.Now.ToString("ddMMyyyy"))))
+            {
+                moWatcher = new System.IO.FileSystemWatcher();
+                moWatcher.Filter = "*.*";
+                moWatcher.Path = Path.Combine(ConfigurationManager.AppSettings["CompleteDirectoryFullPath"].ToString(), DateTime.Now.ToString("ddMMyyyy"));
+                moWatcher.IncludeSubdirectories = true;
+
+                moWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
+                                     | NotifyFilters.FileName | NotifyFilters.DirectoryName;
+                moWatcher.Changed += new FileSystemEventHandler(OnChanged);
+                moWatcher.Created += new FileSystemEventHandler(OnChanged);
+                moWatcher.Deleted += new FileSystemEventHandler(OnChanged);
+                moWatcher.Renamed += new RenamedEventHandler(OnRenamed);
+                moWatcher.EnableRaisingEvents = true;
+            }
         }
 
         private void OnChanged(object sender, FileSystemEventArgs e)

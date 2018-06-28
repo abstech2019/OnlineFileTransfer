@@ -96,6 +96,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Debug\OnlieFileTransfer.vshost.exe" />
+    <Content Include="Images\AbstechIcon.ico" />
+    <Content Include="Images\Download-Folder-icon.ico" />
     <Content Include="Images\file.ico" />
     <Content Include="Images\file.png" />
     <Content Include="Images\folder.png" />

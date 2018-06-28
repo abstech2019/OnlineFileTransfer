@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewCurrentImages));
             this.dgvFilesList = new System.Windows.Forms.DataGridView();
             this.PathType = new System.Windows.Forms.DataGridViewImageColumn();
             this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -69,7 +70,7 @@
             this.dgvFilesList.Name = "dgvFilesList";
             this.dgvFilesList.RowHeadersVisible = false;
             this.dgvFilesList.RowHeadersWidth = 70;
-            this.dgvFilesList.Size = new System.Drawing.Size(1013, 309);
+            this.dgvFilesList.Size = new System.Drawing.Size(1013, 548);
             this.dgvFilesList.TabIndex = 3;
             this.dgvFilesList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFilesList_CellClick);
             this.dgvFilesList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFilesList_CellContentClick);
@@ -117,9 +118,9 @@
             // lstNotification
             // 
             this.lstNotification.FormattingEnabled = true;
-            this.lstNotification.Location = new System.Drawing.Point(3, 531);
+            this.lstNotification.Location = new System.Drawing.Point(3, 621);
             this.lstNotification.Name = "lstNotification";
-            this.lstNotification.Size = new System.Drawing.Size(326, 82);
+            this.lstNotification.Size = new System.Drawing.Size(326, 17);
             this.lstNotification.TabIndex = 4;
             this.lstNotification.Visible = false;
             // 
@@ -203,6 +204,7 @@
             this.Controls.Add(this.dgvFilesList);
             this.Controls.Add(this.lstNotification);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mStripTopMenu;
             this.MaximizeBox = false;
             this.Name = "ViewCurrentImages";
